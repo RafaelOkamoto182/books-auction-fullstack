@@ -1,32 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSellerDto } from './dto/create-seller.dto';
 import { UpdateSellerDto } from './dto/update-seller.dto';
+import { DatabaseService } from 'src/database/database.service';
+import { sellersQuery } from './sellers.query';
+
 
 @Injectable()
 export class SellersService {
-  create(createSellerDto: CreateSellerDto) {
+  constructor(private readonly dbService: DatabaseService) { }
 
+  async create(parameters: CreateSellerDto) {
 
-
-
-
-
-    return 'This action adds a new seller';
+    const { queryText, queryValues } = sellersQuery.create(parameters)
+    const result = await this.dbService.executeQuery(queryText, queryValues)
+    return result;
   }
 
   findAll() {
     return `This action returns all sellers`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} seller`;
+  async findOne(id: string) {
+    const { queryText, queryValues } = sellersQuery.selectById(id)
+    const [result] = await this.dbService.executeQuery(queryText, queryValues)
+    return result;
   }
 
-  update(id: number, updateSellerDto: UpdateSellerDto) {
+  update(id: string, updateSellerDto: UpdateSellerDto) {
     return `This action updates a #${id} seller`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} seller`;
   }
 }

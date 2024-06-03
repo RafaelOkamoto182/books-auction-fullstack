@@ -10,7 +10,13 @@ export class SellersController {
   @Post()
   create(@Body() body: CreateSellerDto) {
 
-    return this.sellersService.create(body);
+    const parameters: CreateSellerDto = {
+      username: body.username,
+      password: body.password,
+      user_type: body.user_type
+    }
+
+    return this.sellersService.create(parameters);
   }
 
   @Get()
@@ -20,16 +26,16 @@ export class SellersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.sellersService.findOne(+id);
+    return this.sellersService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSellerDto: UpdateSellerDto) {
-    return this.sellersService.update(+id, updateSellerDto);
+    return this.sellersService.update(id, updateSellerDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.sellersService.remove(+id);
+    return this.sellersService.remove(id);
   }
 }
