@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
 import { OffersModule } from './offers/offers.module';
 import { BidsModule } from './bids/bids.module';
 import { DatabaseModule } from './database/database.module';
@@ -28,7 +27,6 @@ import { SellersModule } from './sellers/sellers.module';
       inject: [ConfigService]
 
     }),
-    UsersModule,
     OffersModule,
     BidsModule,
     DatabaseModule,
