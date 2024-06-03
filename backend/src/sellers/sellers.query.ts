@@ -17,4 +17,12 @@ export const sellersQuery = {
         })
     },
 
+    selectByUserName(userName: string) {
+        return ({
+            queryText: `SELECT * FROM seller WHERE username= $1`,
+            queryValues: [userName]
+        })
+
+    }
+
 }
