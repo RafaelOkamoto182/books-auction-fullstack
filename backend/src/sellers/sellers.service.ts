@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSellerDto } from './dto/create-seller.dto';
 import { UpdateSellerDto } from './dto/update-seller.dto';
 import { DatabaseService } from 'src/database/database.service';
@@ -31,8 +31,12 @@ export class SellersService {
   }
 
   async findOne(id: string) {
+
     const { queryText, queryValues } = sellersQuery.selectById(id)
+
     const [result] = await this.dbService.executeQuery(queryText, queryValues)
+    if (!result)
+      throw new NotFoundException
     return result;
   }
 
