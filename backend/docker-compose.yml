@@ -6,7 +6,8 @@ volumes:
 
 services:
 
-  db:
+  postgres:
+    container_name: postgres-nestjs
     image: postgres
     ports:
       - 5432:5432
@@ -16,6 +17,6 @@ services:
       - type: tmpfs
         target: /dev/shm
     environment:
-      POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: booksauction

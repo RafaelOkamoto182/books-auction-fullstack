@@ -6,10 +6,10 @@ import { ModuleRef } from '@nestjs/core';
 
 const databasePoolFactory = async (configService: ConfigService) => {
     return new Pool({
-        user: configService.get('POSTGRES_USERNAME'),
         host: configService.get('POSTGRES_HOST'),
-        database: configService.get('POSTGRES_DATABASE'),
+        user: configService.get('POSTGRES_USERNAME'),
         password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DB'),
         port: configService.get('POSTGRES_PORT'),
     });
 };

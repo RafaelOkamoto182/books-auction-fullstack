@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
 import { OffersModule } from './offers/offers.module';
-import { Offer } from './offers/entities/offer.entity';
 import { BidsModule } from './bids/bids.module';
-import { Bid } from './bids/entities/bid.entity';
 import { DatabaseModule } from './database/database.module';
 
 
@@ -14,17 +11,21 @@ import { DatabaseModule } from './database/database.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['env/.env'],
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USERNAME,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
-      entities: [User, Offer, Bid],
-      synchronize: true
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('POSTGRES_HOST'),
+        port: Number(configService.get('POSTGRES_PORT')),
+        username: configService.get('POSTGRES_USERNAME'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DATABASE'),
+        migrationsRun: true,
+        migrations: [`${__dirname}/database/migrations/*{.ts,.js}`]
+      }),
+      inject: [ConfigService]
+
     }),
     UsersModule,
     OffersModule,
