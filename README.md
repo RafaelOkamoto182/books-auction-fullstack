@@ -6,17 +6,24 @@ Esta é uma aplicação web desenvolvida como desafio de programação full stac
 Para começar, é necessário clonar o repositório github. Um tutorial detalhado pode ser encontrado no site do próprio github:
 https://docs.github.com/pt/repositories/creating-and-managing-repositories/cloning-a-repository
 
-## Variáveis ambiente
-Para o correto funcionamento da API, é necessário configurar as variáveis de ambiente.
-Para isso, navegue até a pasta "backend" e, dentro dela, crie um arquivo com o nome ".env".
-O nestJS é responsável por ler automaticamente as variáveis contidas nesse arquivo.
-Após criado, insira as seguintes linhas no arquivo:
+# Criação de arquivos
+Para prover a aplicação com as variáveis de ambiente necessárias, é preciso criar os seguintes arquivos:
+## .docker.env
 
-    DB_HOST=localhost
-    DB_USERNAME=
-    DB_PASSWORD=
-    DB_PORT=
-    DB_DATABASE=
+
+## .env
+Dentro da pasta backend, crie um arquivo com o nome ".env".
+O nestJS é responsável por ler automaticamente as variáveis contidas nesse arquivo.
+Dentro dele, copie a seguinte estrutura:
+
+    POSTGRES_HOST=localhost
+    POSTGRES_USERNAME=
+    POSTGRES_PASSWORD=
+    POSTGRES_PORT=
+    POSTGRES_DB=
+
+Os espaços em branco devem ser preenchidos de forma compatível com os valores escolhidos no arquivo anterior "docker.env".
+> Exemplo
 
 
 
