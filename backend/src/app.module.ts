@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { OffersModule } from './offers/offers.module';
 import { BidsModule } from './bids/bids.module';
 import { DatabaseModule } from './database/database.module';
+import { SellersModule } from './sellers/sellers.module';
 
 
 @Module({
@@ -30,7 +31,8 @@ import { DatabaseModule } from './database/database.module';
     UsersModule,
     OffersModule,
     BidsModule,
-    DatabaseModule
+    DatabaseModule,
+    SellersModule
   ],
   controllers: [],
   providers: [],
