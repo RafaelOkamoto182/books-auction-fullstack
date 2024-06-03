@@ -20,7 +20,7 @@ import { DatabaseModule } from './database/database.module';
         port: Number(configService.get('POSTGRES_PORT')),
         username: configService.get('POSTGRES_USERNAME'),
         password: configService.get('POSTGRES_PASSWORD'),
-        database: configService.get('POSTGRES_DATABASE'),
+        database: configService.get('POSTGRES_DB'),
         migrationsRun: true,
         migrations: [`${__dirname}/database/migrations/*{.ts,.js}`]
       }),
