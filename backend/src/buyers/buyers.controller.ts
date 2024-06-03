@@ -19,23 +19,8 @@ export class BuyersController {
     return this.buyersService.create(parameters);
   }
 
-  @Get()
-  findAll() {
-    return this.buyersService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.buyersService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBuyerDto: UpdateBuyerDto) {
-    return this.buyersService.update(id, updateBuyerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.buyersService.remove(id);
   }
 }

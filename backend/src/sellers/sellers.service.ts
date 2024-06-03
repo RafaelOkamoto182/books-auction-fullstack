@@ -26,10 +26,6 @@ export class SellersService {
     return result;
   }
 
-  findAll() {
-    return `This action returns all sellers`;
-  }
-
   async findOne(id: string) {
 
     const { queryText, queryValues } = sellersQuery.selectById(id)
@@ -38,13 +34,5 @@ export class SellersService {
     if (!result)
       throw new NotFoundException
     return result;
-  }
-
-  update(id: string, updateSellerDto: UpdateSellerDto) {
-    return `This action updates a #${id} seller`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} seller`;
   }
 }

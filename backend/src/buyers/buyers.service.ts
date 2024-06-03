@@ -24,23 +24,11 @@ export class BuyersService {
     return result;
   }
 
-  findAll() {
-    return `This action returns all buyers`;
-  }
-
   async findOne(id: string) {
     const { queryText, queryValues } = buyersQuery.selectById(id)
     const [result] = await this.dbService.executeQuery(queryText, queryValues)
     if (!result)
       throw new NotFoundException
     return result;
-  }
-
-  update(id: string, updateBuyerDto: UpdateBuyerDto) {
-    return `This action updates a #${id} buyer`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} buyer`;
   }
 }
