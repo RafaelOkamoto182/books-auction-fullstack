@@ -4,15 +4,12 @@ import { UpdateBidDto } from './dto/update-bid.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bid } from './entities/bid.entity';
 import { Repository } from 'typeorm';
-import { Offer } from 'src/offers/entities/offer.entity';
 
 @Injectable()
 export class BidsService {
   constructor(
     @InjectRepository(Bid)
     private readonly bidsRepository: Repository<Bid>,
-    @InjectRepository(Offer)
-    private readonly offersRepository: Repository<Offer>
 
   ) { }
 

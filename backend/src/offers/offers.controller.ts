@@ -2,17 +2,23 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { OffersService } from './offers.service';
 import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
-import { Offer } from './entities/offer.entity';
 
 @Controller('offers')
 export class OffersController {
   constructor(private readonly offersService: OffersService) { }
 
   @Post()
-  async create(@Body() createOfferDto: CreateOfferDto) {
-    console.log(createOfferDto)
-    const createdOffer = await this.offersService.create(createOfferDto)
-    return createdOffer
+  create(@Body() body: CreateOfferDto) {
+    console.log(body)
+    const parameters: CreateOfferDto = {
+      seller_id: body.seller_id,
+      book_name: body.book_name,
+      book_author: body.book_author,
+      book_genre: body.book_genre,
+      desirable_price: body.desirable_price || null
+    }
+
+    return this.offersService.create(parameters)
   }
 
   @Get()
@@ -21,14 +27,14 @@ export class OffersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Offer> {
+  findOne(@Param('id') id: string) {
     return this.offersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOfferDto: UpdateOfferDto) {
-    return this.offersService.update(id, updateOfferDto);
-  }
+  /*   @Patch(':id')
+    update(@Param('id') id: string, @Body() updateOfferDto: UpdateOfferDto) {
+      return this.offersService.update(id, updateOfferDto);
+    } */
 
   @Delete(':id')
   remove(@Param('id') id: string) {

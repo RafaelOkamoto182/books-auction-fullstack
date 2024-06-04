@@ -1,9 +1,9 @@
-import { IsDecimal, IsOptional, IsString } from "class-validator"
+import { IsDecimal, IsOptional, IsString, IsUUID } from "class-validator"
 
 export class CreateOfferDto {
 
-    @IsString()
-    image_URL: string
+    @IsUUID()
+    seller_id: string
 
     @IsString()
     book_name: string

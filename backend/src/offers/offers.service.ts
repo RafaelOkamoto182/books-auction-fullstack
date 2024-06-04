@@ -1,50 +1,57 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Offer } from './entities/offer.entity';
+import { DatabaseService } from 'src/database/database.service';
+import { offersQuery } from './offers.query';
 
 @Injectable()
 export class OffersService {
   constructor(
-    @InjectRepository(Offer)
-    private readonly offersRepository: Repository<Offer>
-  ) { }
+    private readonly dbService: DatabaseService) { }
 
-  async create(createOfferDto: CreateOfferDto): Promise<Offer> {
-    const createdOffer = await this.offersRepository.save({ ...createOfferDto })
-    return createdOffer;
+  async create(parameters: CreateOfferDto) {
+
+    const { queryText, queryValues } = offersQuery.create(parameters)
+    const result = await this.dbService.executeQuery(queryText, queryValues)
+    return result;
   }
 
-  async findAll(): Promise<Offer[]> {
-    const offers = await this.offersRepository.find()
+  async findAll() {
+    const { queryText } = offersQuery.select()
 
-    return offers;
+    const result = await this.dbService.executeQuery(queryText)
+    return result;
   }
 
-  async findOne(id: string): Promise<Offer> {
-    const offer = await this.offersRepository.findOneBy({ id })
+  async findOne(id: string) {
 
-    if (!offer) throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
+    const { queryText, queryValues } = offersQuery.selectById(id)
+    const [offer] = await this.dbService.executeQuery(queryText, queryValues)
+
+    if (!offer)
+      throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
 
     return offer;
   }
 
-  async update(id: string, updateOfferDto: UpdateOfferDto): Promise<Offer> {
-    const offer = await this.offersRepository.findOneBy({ id })
-
-    if (!offer) throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
-
-    this.offersRepository.merge(offer, updateOfferDto)
-    return this.offersRepository.save(offer)
-  }
+  /*   async update(id: string, updateOfferDto: UpdateOfferDto) {
+      const offer = await this.offersRepository.findOneBy({ id })
+  
+      if (!offer) throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
+  
+      this.offersRepository.merge(offer, updateOfferDto)
+      return this.offersRepository.save(offer)
+    } */
 
   async remove(id: string) {
-    const offer = await this.offersRepository.findOneBy({ id })
 
-    if (!offer) throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
+    const offer = await this.findOne(id)
 
-    return this.offersRepository.delete({ id })
+    if (!offer)
+      throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
+
+    const { queryText, queryValues } = offersQuery.delete(id)
+
+    return this.dbService.executeQuery(queryText, queryValues)
   }
 }
