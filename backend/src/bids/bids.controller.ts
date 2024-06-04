@@ -9,9 +9,13 @@ export class BidsController {
   constructor(private readonly bidsService: BidsService) { }
 
   @Post()
-  async create(@Body() createBidDto: CreateBidDto) {
-    const createdBid = await this.bidsService.create(createBidDto)
-    return createdBid
+  create(@Body() body: CreateBidDto) {
+    const parameters: CreateBidDto = {
+      offer_id: body.offer_id,
+      buyer_id: body.buyer_id,
+      bid_amount: body.bid_amount
+    }
+    return this.bidsService.create(parameters)
   }
 
   @Get()
@@ -21,16 +25,16 @@ export class BidsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bidsService.findOne(+id);
+    return this.bidsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBidDto: UpdateBidDto) {
-    return this.bidsService.update(+id, updateBidDto);
+    return this.bidsService.update(id, updateBidDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bidsService.remove(+id);
+    return this.bidsService.remove(id);
   }
 }

@@ -1,42 +1,55 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBidDto } from './dto/create-bid.dto';
 import { UpdateBidDto } from './dto/update-bid.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Bid } from './entities/bid.entity';
-import { Repository } from 'typeorm';
+import { DatabaseService } from 'src/database/database.service';
+import { OffersService } from 'src/offers/offers.service';
+import { bidsQuery } from './bids.query';
 
 @Injectable()
 export class BidsService {
   constructor(
-    @InjectRepository(Bid)
-    private readonly bidsRepository: Repository<Bid>,
-
+    private readonly dbService: DatabaseService,
+    private readonly offersService: OffersService
   ) { }
 
-  async create(createBidDto: CreateBidDto) {
-    //const offer = await this.offersRepository.findOneBy({ id: createBidDto.offer_id })
+  async create(parameters: CreateBidDto) {
+    const offer = await this.offersService.findOne(parameters.offer_id)
 
-    console.log(createBidDto)
-    //console.log(offer)
-    //if (!offer) throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
+    if (!offer)
+      throw new HttpException('Offer not found', HttpStatus.NOT_FOUND)
 
-    const createdBid = await this.bidsRepository.save({ ...createBidDto })
-    return 2;
+    const { queryText, queryValues } = bidsQuery.create(parameters)
+
+    return this.dbService.executeQuery(queryText, queryValues);
   }
 
-  findAll() {
-    return `This action returns all bids`;
+  async findAll() {
+    const { queryText } = bidsQuery.select()
+    return await this.dbService.executeQuery(queryText);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bid`;
+  async findOne(id: string) {
+
+    const { queryText, queryValues } = bidsQuery.selectById(id)
+    const [bid] = await this.dbService.executeQuery(queryText, queryValues)
+
+    if (!bid)
+      throw new HttpException('Bid not found', HttpStatus.NOT_FOUND)
+
+    return bid;
   }
 
-  update(id: number, updateBidDto: UpdateBidDto) {
+  update(id: string, updateBidDto: UpdateBidDto) {
     return `This action updates a #${id} bid`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bid`;
+  async remove(id: string) {
+    const bid = await this.findOne(id)
+
+    if (!bid)
+      throw new HttpException('Bid not found', HttpStatus.NOT_FOUND)
+
+    const { queryText, queryValues } = bidsQuery.delete(id)
+    return this.dbService.executeQuery(queryText, queryValues)
   }
 }
