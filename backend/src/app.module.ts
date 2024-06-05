@@ -6,6 +6,7 @@ import { BidsModule } from './bids/bids.module';
 import { DatabaseModule } from './database/database.module';
 import { SellersModule } from './sellers/sellers.module';
 import { BuyersModule } from './buyers/buyers.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -32,7 +33,8 @@ import { BuyersModule } from './buyers/buyers.module';
     BidsModule,
     DatabaseModule,
     SellersModule,
-    BuyersModule
+    BuyersModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],

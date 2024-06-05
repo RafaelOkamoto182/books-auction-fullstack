@@ -31,4 +31,12 @@ export class BuyersService {
       throw new NotFoundException
     return result;
   }
+
+  async findOneByUserName(username: string) {
+    const { queryText: findByNameQueryText, queryValues: findByNameQueryValues } = buyersQuery.selectByUserName(username)
+    const [buyer] = await this.dbService.executeQuery(findByNameQueryText, findByNameQueryValues)
+    if (!buyer)
+      throw new NotFoundException()
+    return buyer
+  }
 }
