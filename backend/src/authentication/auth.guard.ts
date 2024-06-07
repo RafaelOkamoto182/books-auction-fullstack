@@ -10,11 +10,6 @@ export class AuthGuard implements CanActivate {
     private readonly configService: ConfigService
   ) { }
 
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? []
-    return type === 'Bearer' ? token : undefined
-  }
-
   async canActivate(context: ExecutionContext,): Promise<boolean> {
 
     const request = context.switchToHttp().getRequest()
@@ -34,10 +29,18 @@ export class AuthGuard implements CanActivate {
       //assign payload to the request object, under the '.user' property.
       request['user'] = payload
 
+      console.log('passou aqui')
+
     } catch {
       throw new UnauthorizedException()
     }
 
     return true;
   }
+
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? []
+    return type === 'Bearer' ? token : undefined
+  }
+
 }

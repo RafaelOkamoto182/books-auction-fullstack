@@ -6,7 +6,7 @@ import { BidsModule } from './bids/bids.module';
 import { DatabaseModule } from './database/database.module';
 import { SellersModule } from './sellers/sellers.module';
 import { BuyersModule } from './buyers/buyers.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './authentication/auth.module';
 
 
 @Module({

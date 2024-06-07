@@ -6,15 +6,19 @@ import { SellersModule } from 'src/sellers/sellers.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+
 @Module({
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService
+  ],
   imports: [
     BuyersModule,
     SellersModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+      global: true,
       useFactory: (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
         signOptions: { expiresIn: '300s' }
