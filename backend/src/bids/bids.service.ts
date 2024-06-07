@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateBidDto } from './dto/create-bid.dto';
-import { UpdateBidDto } from './dto/update-bid.dto';
+import { OutputCreateBidDto } from './dto/create-bid.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { OffersService } from 'src/offers/offers.service';
 import { bidsQuery } from './bids.query';
@@ -12,7 +11,7 @@ export class BidsService {
     private readonly offersService: OffersService
   ) { }
 
-  async create(parameters: CreateBidDto) {
+  async create(parameters: OutputCreateBidDto) {
     const offer = await this.offersService.findOne(parameters.offer_id)
 
     if (!offer)
@@ -37,10 +36,6 @@ export class BidsService {
       throw new HttpException('Bid not found', HttpStatus.NOT_FOUND)
 
     return bid;
-  }
-
-  update(id: string, updateBidDto: UpdateBidDto) {
-    return `This action updates a #${id} bid`;
   }
 
   async remove(id: string) {

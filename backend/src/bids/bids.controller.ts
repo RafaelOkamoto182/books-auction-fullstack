@@ -1,18 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { BidsService } from './bids.service';
-import { CreateBidDto } from './dto/create-bid.dto';
-import { UpdateBidDto } from './dto/update-bid.dto';
+import { InputCreateBidDto, OutputCreateBidDto } from './dto/create-bid.dto';
+import { AuthGuard } from 'src/authentication/auth.guard';
+import { RolesGuard } from 'src/authorization/roles.guard';
+import { Roles } from 'src/authorization/roles.decorator';
+import { Role } from 'src/authorization/enums/role.enum';
 
 @Controller('bids')
 export class BidsController {
 
   constructor(private readonly bidsService: BidsService) { }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Buyer)
   @Post()
-  create(@Body() body: CreateBidDto) {
-    const parameters: CreateBidDto = {
+  create(@Body() body: InputCreateBidDto, @Request() req) {
+    const user = req.user
+    console.log(user)
+    const parameters: OutputCreateBidDto = {
       offer_id: body.offer_id,
-      buyer_id: body.buyer_id,
+      buyer_id: req.user.sub,
       bid_amount: body.bid_amount
     }
     return this.bidsService.create(parameters)
@@ -28,10 +35,10 @@ export class BidsController {
     return this.bidsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBidDto: UpdateBidDto) {
-    return this.bidsService.update(id, updateBidDto);
-  }
+  /*   @Patch(':id')
+    update(@Param('id') id: string, @Body() updateBidDto: UpdateBidDto) {
+      return
+    } */
 
   @Delete(':id')
   remove(@Param('id') id: string) {

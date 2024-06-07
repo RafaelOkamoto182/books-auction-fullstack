@@ -1,7 +1,7 @@
-import { CreateBidDto } from "./dto/create-bid.dto";
+import { OutputCreateBidDto } from "./dto/create-bid.dto";
 
 export const bidsQuery = {
-    create(parameters: CreateBidDto) {
+    create(parameters: OutputCreateBidDto) {
         return ({
             queryText: `INSERT INTO public.bid(
                 bid_id, offer_id, buyer_id, price)

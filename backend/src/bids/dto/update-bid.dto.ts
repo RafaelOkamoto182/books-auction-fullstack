@@ -1,4 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateBidDto } from './create-bid.dto';
+import { InputCreateBidDto, OutputCreateBidDto } from './create-bid.dto';
 
-export class UpdateBidDto extends PartialType(CreateBidDto) {}
+export class InputUpdateBidDto extends PartialType(InputCreateBidDto) { }
+export class OutputUpdateBidDto extends PartialType(OutputCreateBidDto) { }

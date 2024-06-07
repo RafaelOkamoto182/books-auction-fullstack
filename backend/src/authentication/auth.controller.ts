@@ -18,7 +18,6 @@ export class AuthController {
         return this.authService.signIn(body.username, body.password, body.user_type)
     }
 
-
     @UseGuards(AuthGuard, RolesGuard)
     @Roles(Role.Seller)
     @Get('test')
