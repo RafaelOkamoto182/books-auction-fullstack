@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateOfferDto } from './dto/create-offer.dto';
-import { UpdateOfferDto } from './dto/update-offer.dto';
+import { OutputCreateOfferDto } from './dto/create-offer.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { offersQuery } from './offers.query';
 
@@ -9,7 +8,7 @@ export class OffersService {
   constructor(
     private readonly dbService: DatabaseService) { }
 
-  async create(parameters: CreateOfferDto) {
+  async create(parameters: OutputCreateOfferDto) {
 
     const { queryText, queryValues } = offersQuery.create(parameters)
     const result = await this.dbService.executeQuery(queryText, queryValues)

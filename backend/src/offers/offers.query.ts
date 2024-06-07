@@ -1,8 +1,8 @@
-import { CreateOfferDto } from "./dto/create-offer.dto";
+import { OutputCreateOfferDto } from "./dto/create-offer.dto";
 
 export const offersQuery = {
 
-    create(parameters: CreateOfferDto) {
+    create(parameters: OutputCreateOfferDto) {
         return ({
             queryText: `INSERT INTO public.offer(
                 offer_id, seller_id, book_name, book_author, book_genre, desirable_price)

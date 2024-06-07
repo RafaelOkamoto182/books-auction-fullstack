@@ -1,17 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { OffersService } from './offers.service';
-import { CreateOfferDto } from './dto/create-offer.dto';
-import { UpdateOfferDto } from './dto/update-offer.dto';
+import { InputCreateOfferDto, OutputCreateOfferDto } from './dto/create-offer.dto';
+import { AuthGuard } from 'src/authentication/auth.guard';
+import { RolesGuard } from 'src/authorization/roles.guard';
+import { Roles } from 'src/authorization/roles.decorator';
+import { Role } from 'src/authorization/enums/role.enum';
 
 @Controller('offers')
 export class OffersController {
   constructor(private readonly offersService: OffersService) { }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Seller)
   @Post()
-  create(@Body() body: CreateOfferDto) {
-    console.log(body)
-    const parameters: CreateOfferDto = {
-      seller_id: body.seller_id,
+  create(@Body() body: InputCreateOfferDto, @Request() req) {
+    const parameters: OutputCreateOfferDto = {
+      seller_id: req.user.sub,
       book_name: body.book_name,
       book_author: body.book_author,
       book_genre: body.book_genre,

@@ -15,8 +15,6 @@ export class BidsController {
   @Roles(Role.Buyer)
   @Post()
   create(@Body() body: InputCreateBidDto, @Request() req) {
-    const user = req.user
-    console.log(user)
     const parameters: OutputCreateBidDto = {
       offer_id: body.offer_id,
       buyer_id: req.user.sub,

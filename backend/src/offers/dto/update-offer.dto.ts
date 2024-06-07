@@ -1,4 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateOfferDto } from './create-offer.dto';
+import { InputCreateOfferDto, OutputCreateOfferDto } from './create-offer.dto';
 
-export class UpdateOfferDto extends PartialType(CreateOfferDto) {}
+export class InputUpdateOfferDto extends PartialType(InputCreateOfferDto) { }
+export class OutputUpdateOfferDto extends PartialType(OutputCreateOfferDto) { }
