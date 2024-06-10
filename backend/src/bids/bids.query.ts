@@ -12,14 +12,43 @@ export const bidsQuery = {
 
     selectById(id: string) {
         return ({
-            queryText: `SELECT * FROM public.bid WHERE bid_id=$1`,
+            queryText:
+                `
+                SELECT bid_id,public.bid.offer_id, price, status, public.bid.updated_at, book_name, desirable_price 
+	                FROM public.bid
+                INNER JOIN public.offer ON public.bid.offer_id = public.offer.offer_id
+                WHERE public.bid.offer_id=$1
+                ORDER BY updated_at
+                `,
             queryValues: [id]
         })
     },
 
-    select() {
+    selectBySellerId(id: string) {
         return ({
-            queryText: `SELECT * FROM public.bid`
+            queryText:
+                `
+                SELECT bid_id,public.bid.offer_id, price, status, public.bid.updated_at, book_name, desirable_price 
+	                FROM public.bid
+                INNER JOIN public.offer ON public.bid.offer_id = public.offer.offer_id
+                WHERE public.offer.seller_id=$1
+                ORDER BY updated_at
+                `,
+            queryValues: [id]
+        })
+    },
+
+    selectByBuyerId(id: string) {
+        return ({
+            queryText:
+                `
+                SELECT bid_id,public.bid.offer_id, price, status, public.bid.updated_at, book_name, book_author, book_genre 
+	                FROM public.bid
+                INNER JOIN public.offer ON public.bid.offer_id = public.offer.offer_id
+                WHERE public.bid.buyer_id=$1
+                ORDER BY updated_at
+                `,
+            queryValues: [id]
         })
     },
 
