@@ -17,7 +17,7 @@ export const bidsQuery = {
                 SELECT bid_id,public.bid.offer_id, price, status, public.bid.updated_at, book_name, desirable_price 
 	                FROM public.bid
                 INNER JOIN public.offer ON public.bid.offer_id = public.offer.offer_id
-                WHERE public.bid.offer_id=$1
+                WHERE public.bid.bid_id=$1
                 ORDER BY updated_at
                 `,
             queryValues: [id]

@@ -40,6 +40,7 @@ export class BidsController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   findOne(@Param('id') id: string) {
     return this.bidsService.findOne(id);
   }
@@ -50,6 +51,7 @@ export class BidsController {
     } */
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
     return this.bidsService.remove(id);
   }
