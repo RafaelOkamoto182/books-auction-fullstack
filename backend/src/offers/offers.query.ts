@@ -27,21 +27,36 @@ export const offersQuery = {
 
     selectOffersByBookTitle(title: string) {
         return ({
-            queryText: `SELECT * FROM public.offer WHERE book_name ILIKE $1`,
+            queryText:
+                `
+            SELECT offer_id, seller_id, book_name, book_author, book_genre, created_at, updated_at 
+            FROM public.offer 
+            WHERE book_name ILIKE $1
+            `,
             queryValues: [title]
         })
     },
 
     selectOffersByBookAuthor(author: string) {
         return ({
-            queryText: `SELECT * FROM public.offer WHERE book_author ILIKE $1`,
+            queryText:
+                `
+            SELECT offer_id, seller_id, book_name, book_author, book_genre, created_at, updated_at 
+            FROM public.offer 
+            WHERE book_author ILIKE $1
+            `,
             queryValues: [author]
         })
     },
 
     selectOffersByBookGenre(genre: string) {
         return ({
-            queryText: `SELECT * FROM public.offer WHERE book_genre ILIKE $1`,
+            queryText:
+                `
+            SELECT offer_id, seller_id, book_name, book_author, book_genre, created_at, updated_at 
+            FROM public.offer 
+            WHERE book_genre ILIKE $1
+            `,
             queryValues: [genre]
         })
     },

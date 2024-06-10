@@ -85,38 +85,24 @@ export class OffersService {
       const { queryText, queryValues } = offersQuery.selectOffersByBookTitle(parameters.search_text)
       const result = await this.dbService.executeQuery(queryText, queryValues)
 
-      const formattedResult = this.formatOffersToReturn(result)
-
-      return formattedResult
+      return result
     }
 
     if (parameters.search_by === SearchCategory.Author) {
       const { queryText, queryValues } = offersQuery.selectOffersByBookAuthor(parameters.search_text)
       const result = await this.dbService.executeQuery(queryText, queryValues)
 
-      const formattedResult = this.formatOffersToReturn(result)
-      return formattedResult
+      return result
     }
 
     if (parameters.search_by === SearchCategory.Genre) {
       const { queryText, queryValues } = offersQuery.selectOffersByBookGenre(parameters.search_text)
       const result = await this.dbService.executeQuery(queryText, queryValues)
 
-      const formattedResult = this.formatOffersToReturn(result)
-      return formattedResult
+      return result
     } else {
       throw new HttpException("Use a valid search criteria", HttpStatus.BAD_REQUEST)
     }
 
-  }
-
-  private formatOffersToReturn(offers: OfferQueryReturn[]) {
-
-    const formattedResult = offers.map((entry) => {
-      delete entry.desirable_price
-      return entry
-    })
-
-    return formattedResult
   }
 }
