@@ -29,8 +29,6 @@ export class AuthGuard implements CanActivate {
       //assign payload to the request object, under the '.user' property.
       request['user'] = payload
 
-      console.log('passou aqui')
-
     } catch {
       throw new UnauthorizedException()
     }

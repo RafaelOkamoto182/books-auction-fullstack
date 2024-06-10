@@ -7,10 +7,4 @@ export class TokenPayloadDto {
 
     @IsString()
     role: string
-
-    @IsNumber()
-    iat: string
-
-    @IsNumber()
-    exp: number
 }
